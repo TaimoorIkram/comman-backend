@@ -1,0 +1,57 @@
+@import './style_sec.css';
+
+.graph-container > .bar:nth-child(1) {
+    background-color: rgb(206, 206, 255);
+    height: 500px;
+    animation: 1s stretchUp1 cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+@keyframes stretchUp1 { from { height: 0%; } to { height: 500px; }}
+
+.graph-container > .bar:nth-child(2) {
+    background-color: rgb(215, 215, 255);
+    height: 300px;
+    animation: 1s stretchUp2 cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+@keyframes stretchUp2  { from { height: 0%; } to { height: 300px; }}
+
+.graph-container > .bar:nth-child(3) {
+    background-color: rgb(157, 157, 252);
+    height: 400px;
+    animation: 1s stretchUp3 cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+@keyframes stretchUp3 { from { height: 0%; } to { height: 400px; }}
+
+.graph-container > .bar:nth-child(4) {
+    background-color: rgb(134, 134, 255);
+    height: 600px;
+    animation: 1s stretchUp4 cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+@keyframes stretchUp4 { from { height: 0%; } to { height: 600px; }}
+
+.graph-container > .bar:nth-child(5) {
+    background-color: rgb(110, 110, 249);
+    height: 200px;
+    animation: 1s stretchUp5 cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+@keyframes stretchUp5 { from { height: 0%; } to { height: 200px; }}
+
+.graph-container > .bar:nth-child(6) {
+    background-color: rgb(93, 93, 255);
+    height: 300px;
+    animation: 1s stretchUp6 cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+@keyframes stretchUp6 { from { height: 0%; } to { height: 300px; }}
+
+.graph-container > .bar:nth-child(7) {
+    background-color: rgb(54, 54, 255);
+    height: 550px;
+    animation: 1s stretchUp7 cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+@keyframes stretchUp7 { from { height: 0%; } to { height: 550px; }}
+
+.graph-container > .bar:nth-child(8) {
+    background-color: blue;
+    height: 100px;
+    animation: 1s stretchUp8 cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+@keyframes stretchUp8 { from { height: 0%; } to { height: 100px; }}

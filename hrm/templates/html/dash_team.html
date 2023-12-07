@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style_pri.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style_sec.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style_ter.css' %}">
+</head>
+<body>
+    <div class="sidemenu">
+        <div class="options hidden" id="optionsOverlay">
+            <div class="control">
+                <a href="./dash_main.html"><img class="logo" src="{% static 'assets/logo_mp.png' %}" alt="logo_mark_properties"></a>
+                <img class="icon" title="Close Menu" src="{% static 'assets/x-circle.svg' %}" alt="">
+            </div>
+
+            <h1>Navigator</h1>
+            <div class="option">
+                <div class="button category">
+                    <p>Team Management</p>
+                    <i class="calign-y bi bi-chevron-down"></i>
+                </div>
+                <div class="subcategory">
+                    <p>Dashboard</p>
+                    <p>HR</p>
+                    <p>Team Lead</p>
+                    <p>Marketing</p>
+                </div>
+            </div>
+            <div class="option">
+                <div class="button category">
+                    <p>Customer Relationships</p>
+                    <i class="calign-y bi bi-chevron-down"></i>
+                </div>
+                <div class="subcategory">
+                    <p>Dashboard</p>
+                    <p>Lead Assignment</p>
+                    <p>Lead Management</p>
+                    <p>CR Analysis</p>
+                    <p>Feedbacks</p>
+                </div>
+            </div>
+        </div>
+        <div class="blur unblurred" id="blurOverlay">
+        </div>
+    </div>
+
+    <header class="header-container">
+        <div class="header-item">
+            <img src="../assets/list.svg" alt="" class="icon calign-y">
+            <i class="item-v-align bi bi-list"></i>
+        </div>
+        <div class="header-item">
+            <a href="./dash_main.html"><img class="header-item logo" src="{% static 'assets/logo_mp.png' %}" alt="logo_mark_properties"></a>
+        </div>
+        <div class="header-actions">
+            <a href="./dash_team.html"><input class="button category" type="button" value="Team Management"/></a>
+            <a href="./dash_cust_rel.html"><input class="button category" type="button" value="Customer Relationships"/></a>
+            <img src="{% static 'assets/bell-fill.svg' %}" alt="" class="icon calign-y">
+            <h3 class="calign-y">
+                Taimoor Ikram
+            </h3>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <div class="">
+                <h1><a href="./dash_main.html"><img src="{% static 'assets/house-door-fill.svg' %}" alt="link_home"></a> / Team Management Dashboard</h1>
+                <h2>Team Activity Overview (Teams vs. Number of People Active)</h2>
+                <div class="graph">
+                    <div class="graph-container">
+                        <div class="bar">
+                            <p>Human Resource</p>
+                            <input type="button" class="button pri item-v-align" value="See More">
+                        </div>
+                        <div class="bar">
+                            <p>Executive Officers</p>
+                            <input type="button" class="button pri item-v-align" value="See More">
+                        </div>
+                        <div class="bar">
+                            <p>Team Leads</p>
+                            <input type="button" class="button pri item-v-align" value="See More">
+                        </div>
+                        <div class="bar">
+                            <p>Executive Officers</p>
+                            <input type="button" class="button pri item-v-align" value="See More">
+                        </div>
+                        <div class="bar">
+                            <p>Database Managers</p>
+                            <input type="button" class="button pri item-v-align" value="See More">
+                        </div>
+                        <div class="bar">
+                            <p>Sales Representatives</p>
+                            <input type="button" class="button pri item-v-align" value="See More">
+                        </div>
+                        <div class="bar">
+                            <p>Directors</p>
+                            <input type="button" class="button pri item-v-align" value="See More">
+                        </div>
+                        <div class="bar">
+                            <p>Correspondants</p>
+                            <input type="button" class="button pri item-v-align" value="See More">
+                        </div>                        
+                    </div>
+                </div>
+
+                <div class="notification warning">
+                    <img src="../assets/exclamation-triangle-fill.svg" alt="" class="icon calign-y">
+                    <div>
+                        <h3>Save your employees from foreign attacks.</h3>
+                        <p>Ensure the system is properly secured so people outside the organizaiton cannot exploit your database!</p>
+                    </div>
+                    <div class="notification-item-container">
+                        <input type="button" class="button pri item-v-align" value="See More">
+                        <input type="button" class="button pri item-v-align" value="Dismiss">
+                    </div>
+                </div>
+                
+                <h2>Quick Highlights</h2>
+                <div class="cards-container">
+                    <h3>Here are some quick figures...</h3>
+                    <div class="cards-container cards">
+                        <div class="card orange">
+                            <p class="top-text">This Month</p>
+                            <p class="main-text">PKR 2.5M+</p>
+                            <p class="sec-text">Salary Payment Left</p>
+                            <p class="bottom-text red">12 days remaining</p>
+                        </div>
+                        
+                        <div class="card orange">
+                            <p class="top-text">Jan 2023 - Present</p>
+                            <p class="main-text">12</p>
+                            <p class="sec-text">Employees Fired</p>
+                            <p class="bottom-text red">Most fired since 2021</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Team Management</h2>
+                <div class="cards-container">
+                    {% if members %}
+                    <h3>Click on a team to manage their employees and change their assignments...</h3>
+                    <div class="cards-container cards">
+                        {% for member in members %}
+                        <div class="card">
+                            <p class="main-text">{{member.first_name}} {{member.last_name}}</p>
+                            <p class="sec-text">{{member.rank.title}}</p>
+                            <p class="bottom-text green">Good</p>
+                            <input type="button" class="button pri" value="Manage">
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                    <h3>There are no employees to manage</h3>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

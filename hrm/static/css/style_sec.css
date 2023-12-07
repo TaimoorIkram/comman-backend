@@ -1,0 +1,165 @@
+@import './style_pri.css';
+
+.cards-container {
+    background-color: var(--card-blue);
+    padding: 1rem;
+}
+
+.notifications {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.notification {
+    display: grid;
+    padding: 0.5rem;
+    grid-template-columns: 1fr 8fr 2fr;
+    border-radius: 5px;
+    gap: 1rem;
+    color: var(--text-in-primary);
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.25);
+}
+
+.notification.normal {
+    background-color: var(--noti-pri);
+}
+
+.notification.red {
+    background-color: var(--noti-red);
+}
+
+.notification.green {
+    background-color: var(--noti-green);
+}
+
+.warning {
+    background-color: var(--caution-bg);
+    color: var(--caution-fg);
+    display: grid;
+    padding: 1rem 2rem;
+    grid-template-columns: 1fr 7fr 2fr;
+    margin: 1rem 0;
+}
+
+.warning > div > p, .warning > div > h3 {
+    margin: 0;
+}
+
+.notification-item-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.card {
+    display: grid;
+    padding: 1rem;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.25);
+}
+
+.card.red {
+    background-color: var(--card-red);
+}
+
+.card.green {
+    background-color: var(--card-green);
+}
+
+.card.orange {
+    background-color: var(--card-orange);
+}
+
+.card > .top-text {
+    color: var(--card-text-blue);
+}
+
+.card > [class*='main'], [class*='sec'] {
+    margin: 0;
+    font-weight: 600;
+}
+
+.card > .main-text {
+    font-size: 3rem;
+}
+
+.card > .sec-text {
+    font-size: 2rem;
+}
+
+.card > .bottom-text.red {
+    color: var(--card-text-red);
+}
+
+.card > .bottom-text.green {
+    color: var(--card-text-green);
+}
+
+.post {
+    display: grid;
+    border-radius: 5px;
+    background-color: white;
+    padding: 1rem;
+    grid-template-rows: 1fr 3fr;
+}
+
+.post > .head {
+    display: grid;
+    grid-template-columns: 1fr 9fr;
+}
+
+.cards-container > .post > .head > div > h3, .cards-container > .post > .head > div > p{
+    margin: 0;
+}
+
+.post > .head  > div > .other-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+}
+
+.post > .head > div > .other-details img {
+    width: 0.75rem;
+}
+
+.post-type {
+    display: flex;
+    gap: 1rem;
+}
+
+.graph-container {
+    display: flex;
+    height: 600px;
+    border: none;
+    overflow: hidden;
+
+    border-bottom: 2px solid black;
+    border-left: 2px solid black;
+    padding: 0 2rem;
+
+    align-items: flex-end;
+    gap: 1rem;
+}
+
+.graph-container > .bar {
+    width: 10rem;
+    font-weight: 700;
+    background-color: var(--card-blue);
+    text-align: center;
+}
+
+.bigraph {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.bigraph > .graph > .graph-container > .bar {
+    width: 7rem;
+}
