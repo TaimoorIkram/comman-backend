@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import Customer, Feedback, Task, Bill
-from hrm.serializers import MemberSerializer
+from .models import Customer, Feedback, CustomerTask, Bill
+from hrm.serializers import OrganizationSerializer, TaskSerializer
 
 class CustomerSerializer(serializers.ModelSerializer):
-    employee = MemberSerializer(read_only=True)
-    employee_id = serializers.IntegerField(write_only=True)
+    organization = OrganizationSerializer(read_only=True)
+    organization_id = OrganizationSerializer(write_only=True)
 
     class Meta:
         model = Customer
@@ -23,9 +23,15 @@ class FeedbackSerializer(serializers.ModelSerializer):
             }
         }
 
-class TaskSerializer(serializers.ModelSerializer):
+class CustomerTaskSerializer(serializers.ModelSerializer):
+    customer = CustomerSerializer(read_only=True)
+    customer_id = serializers.IntegerField(write_only=True)
+
+    task = TaskSerializer(read_only=True)
+    task_id = serializers.IntegerField(write_only=True)
+
     class Meta:
-        model = Task
+        model = CustomerTask
         fields = '__all__'
         depth = 1
 
