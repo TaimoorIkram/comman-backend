@@ -5,6 +5,8 @@ from .serializers import OrganizationSerializer, RoleSerializer, TeamSerializer,
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from .permissions import IsAdmin, IsManager, IsEmployee, IsOwner
+from rest_framework.authentication import SessionAuthentication
 
 # Create your views here.
 # app views
@@ -20,14 +22,7 @@ class OrganizationsView(generics.ListCreateAPIView):
     ordering_fields = ['name', 'date_created']
     authentication_classes = [JWTAuthentication]
     search_fields = ['name', 'owner__username']
-
-    def get_permissions(self):
-        permission_classes = []
-
-        if self.request.method != 'GET':
-            permission_classes = [IsAuthenticated]
-        
-        return [permission() for permission in permission_classes]
+    permission_classes = [IsAuthenticated, IsAdmin]
 
 class OrganizationView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Organization.objects.all()
@@ -40,7 +35,7 @@ class OrganizationView(generics.RetrieveUpdateDestroyAPIView):
         permission_classes = []
 
         if self.request.method != 'GET':
-            permission_classes = [IsAuthenticated]
+            permission_classes = [IsAuthenticated, IsOwner]
         
         return [permission() for permission in permission_classes]
 
@@ -51,14 +46,7 @@ class RolesView(generics.ListCreateAPIView):
     ordering_fields = ['name']
     authentication_classes = [JWTAuthentication]
     search_fields = ['name']
-
-    def get_permissions(self):
-        permission_classes = []
-
-        if self.request.method != 'GET':
-            permission_classes = [IsAuthenticated]
-        
-        return [permission() for permission in permission_classes]
+    permission_classes = [IsAuthenticated, IsAdmin]
 
 class RoleView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Role.objects.all()
@@ -71,7 +59,7 @@ class RoleView(generics.RetrieveUpdateDestroyAPIView):
         permission_classes = []
 
         if self.request.method != 'GET':
-            permission_classes = [IsAuthenticated]
+            permission_classes = [IsAuthenticated, IsAdmin]
         
         return [permission() for permission in permission_classes]
 
@@ -81,14 +69,7 @@ class TeamsView(generics.ListCreateAPIView):
     ordering_fields = ['organization__name', 'name']
     authentication_classes = [JWTAuthentication]
     search_fields = ['organization__name', 'name']
-
-    def get_permissions(self):
-        permission_classes = []
-
-        if self.request.method != 'GET':
-            permission_classes = [IsAuthenticated]
-        
-        return [permission() for permission in permission_classes]
+    permission_classes = [IsAuthenticated, IsAdmin]
 
 class TeamView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Team.objects.all()
@@ -101,7 +82,7 @@ class TeamView(generics.RetrieveUpdateDestroyAPIView):
         permission_classes = []
 
         if self.request.method != 'GET':
-            permission_classes = [IsAuthenticated]
+            permission_classes = [IsAuthenticated, IsAdmin]
         
         return [permission() for permission in permission_classes]
 
@@ -116,7 +97,7 @@ class EmployeesView(generics.ListCreateAPIView):
         permission_classes = []
 
         if self.request.method != 'GET':
-            permission_classes = [IsAuthenticated]
+            permission_classes = [IsAuthenticated, IsAdmin]
         
         return [permission() for permission in permission_classes]
 
