@@ -7,6 +7,8 @@ router = DefaultRouter(trailing_slash=True)
 
 urlpatterns = [
     path('home/', views.home, name='home'),
+
+    # crud apis
     path('organizations/', views.OrganizationsView.as_view(), name='organizations'),
     path('organization/<int:pk>/', views.OrganizationView.as_view(), name='organization'),
     path('roles/', views.RolesView.as_view(), name='roles'),
@@ -23,4 +25,16 @@ urlpatterns = [
     path('task-team/<int:pk>/', views.TaskTeamView.as_view(), name='task-team'),
     path('duties/', views.TaskDutiesView.as_view(), name='duties'),
     path('duty/<int:pk>/', views.TaskDutyView.as_view(), name='duty'),
+
+    # custom views
+    path('employees/<int:pk>/', views.CompanyEmployeesView.as_view(), name='employees-from-company'),
+    path('tasks-team/<int:pk>/', views.TeamTasksView.as_view(), name='employees-from-company'),
+    
+
+    # frontend urls
+    path('register/', views.UserRegistrationView.as_view(), name='register-user'),
+    path('user/', views.UserDetailsView.as_view(), name='get-user'),
+    path('user/organizations/', views.UserOrganizationsView.as_view(), name='organizations-own'),
+    path('employee/organizations/', views.EmployeeOrganizationsView.as_view(), name='organizations-added-in'),
+    path('employee/organization/<int:pk>/tasks/', views.EmployeeTasksView.as_view(), name='organizations-added-in'),
 ] + router.urls

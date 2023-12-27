@@ -18,14 +18,17 @@ class Role(models.Model):
 
 class Team(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE) 
-    team_lead = models.ForeignKey('Employee', on_delete=models.PROTECT)
+    team_lead = models.ForeignKey('Employee', on_delete=models.PROTECT, null=True, blank=True)
     name = models.CharField(max_length=30)
+
+    def __str__(self) -> str:
+        return self.organization.name + ' - ' + self.name
 
 class Employee(models.Model):
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rank = models.ForeignKey(Role, on_delete=models.PROTECT)
-    primary_team = models.ForeignKey(Team, on_delete=models.PROTECT, null=True)
+    primary_team = models.ForeignKey(Team, on_delete=models.PROTECT, null=True, blank=True)
     contact_number = models.BigIntegerField(default=0)
 
     def __str__(self) -> str:
@@ -50,7 +53,7 @@ class Task(models.Model):
     date_due = models.DateField()
 
     def __str__(self) -> str:
-        return self.title + ' ' + self.date_due + ' ' + self.completion_status
+        return self.title + ' ' + str(self.date_due) + ' ' + str(self.completion_status)
 
 class TaskTeam(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)

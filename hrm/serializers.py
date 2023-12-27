@@ -1,16 +1,53 @@
 from rest_framework import serializers
 from .models import Organization, Team, Role, Employee, SalaryInvoice, Task, TaskTeam, TaskDuty
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
+from rest_framework.validators import UniqueValidator
 
 # write your serializers here
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = '__all__'
+
 class UserSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(
+        required=False,
+        validators=[UniqueValidator(queryset=User.objects.all())]
+    )
+    username = serializers.CharField(
+        required=True,
+        validators=[UniqueValidator(queryset=User.objects.all())]
+    )
+    first_name = serializers.CharField()
+    last_name = serializers.CharField()
+    password = serializers.CharField(
+        write_only=True, required=True)
+    password_confirmation = serializers.CharField(
+        write_only=True, required=True)
+  
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name']
-
+        fields = ('username', 'password', 'password_confirmation', 'email', 'first_name', 'last_name', 'groups')
+    
+    def create(self, validated_data):
+        user = User.objects.create(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+    
 class OrganizationSerializer(serializers.ModelSerializer):
     owner = UserSerializer(read_only=True)
     owner_id = serializers.IntegerField(write_only=True)
+
+    name = serializers.CharField(
+        required=True, 
+        validators=[UniqueValidator(queryset=Organization.objects.all())]
+    )
 
     class Meta:
         model = Organization
@@ -18,6 +55,8 @@ class OrganizationSerializer(serializers.ModelSerializer):
         depth = 1
 
 class EmployeeSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = Employee
         fields = '__all__'
