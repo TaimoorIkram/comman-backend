@@ -52,7 +52,6 @@ class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
         fields = '__all__'
-        depth = 1
 
 class EmployeeSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
