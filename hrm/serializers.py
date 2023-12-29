@@ -27,7 +27,7 @@ class UserSerializer(serializers.ModelSerializer):
   
     class Meta:
         model = User
-        fields = ('username', 'password', 'password_confirmation', 'email', 'first_name', 'last_name', 'groups')
+        fields = ('id', 'username', 'password', 'password_confirmation', 'email', 'first_name', 'last_name', 'groups')
     
     def create(self, validated_data):
         user = User.objects.create(
@@ -52,6 +52,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
         fields = '__all__'
+        depth = 1
 
 class EmployeeSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
@@ -62,6 +63,9 @@ class EmployeeSerializer(serializers.ModelSerializer):
         depth = 1
 
 class TaskSerializer(serializers.ModelSerializer):
+    # organization = OrganizationSerializer(read_only=True)
+    organization_id = serializers.IntegerField(write_only=True)
+
     class Meta:
         model = Task
         fields = '__all__'
@@ -90,6 +94,12 @@ class TaskTeamSerializer(serializers.ModelSerializer):
         depth = 1
 
 class TaskDutySerializer(serializers.ModelSerializer):
+    employee_id = serializers.IntegerField(write_only=True)
+    employee = EmployeeSerializer(read_only=True)
+    
+    task_id = serializers.IntegerField(write_only=True)
+    task = TaskSerializer(read_only=True)
+
     class Meta:
         model = TaskDuty
         fields = '__all__'

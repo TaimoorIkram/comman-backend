@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from rest_framework import generics
-from .models import Customer, Feedback, Task, Bill, CustomerTask
-from .serializers import CustomerSerializer, FeedbackSerializer, CustomerTaskSerializer, BillSerializer
+from .models import Activity, Customer, Feedback, Task, Bill, CustomerTask
+from .serializers import ActivitySerializer, CustomerSerializer, FeedbackSerializer, CustomerTaskSerializer, BillSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from hrm.serializers import TaskSerializer
 
 # Create your views here.
 class CustomersView(generics.ListCreateAPIView):
@@ -60,7 +61,7 @@ class CustomerRelationshipsView(generics.ListAPIView):
         return Response(serialized_results.data)    
 
 class TasksView(generics.ListCreateAPIView):
-    queryset = Task.objects.all()
+    queryset = CustomerTask.objects.all()
     serializer_class = CustomerTaskSerializer
     ordering_fields = ['task__date_due']
     authentication_classes = [SessionAuthentication, JWTAuthentication]
@@ -75,7 +76,7 @@ class TasksView(generics.ListCreateAPIView):
         return [permission() for permission in permission_classes]    
 
 class TaskView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Task.objects.all()
+    queryset = CustomerTask.objects.all()
     serializer_class = CustomerTaskSerializer
     ordering_fields = ['task__date_due']
     authentication_classes = [SessionAuthentication, JWTAuthentication]
@@ -89,6 +90,27 @@ class TaskView(generics.RetrieveUpdateDestroyAPIView):
         
         return [permission() for permission in permission_classes]
     
+class UserActivitiesView(generics.ListCreateAPIView):
+    queryset = Activity.objects.all()
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+    ordering_fields = ['date_received', 'time_received']
+    search_fields = ['user___username', 'title', 'details']
+
+    def list(self, request, *args, **kwargs):
+        user = self.request.user
+        user_activities = Activity.objects.filter(user__id=user.id)
+        if len(user_activities) > 0:
+            user_activities_serialized = ActivitySerializer(user_activities, many=True)
+            return Response(user_activities_serialized.data)
+        return Response([])
+
+class UserActivityView(generics.DestroyAPIView):
+    queryset = Activity.objects.all()
+    serializer_class = ActivitySerializer
+    authentication_classes = [JWTAuthentication] 
+    permission_classes = [IsAuthenticated]
+
 class FeedbacksView(generics.ListCreateAPIView):
     queryset = Feedback.objects.all()
     serializer_class = FeedbackSerializer
@@ -157,3 +179,29 @@ class BillView(generics.RetrieveUpdateDestroyAPIView):
         
         return [permission() for permission in permission_classes]
     
+class OrganizationCustomersView(generics.ListAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request, pk, *args, **kwargs):
+        customers = Customer.objects.filter(organization__id=pk)
+        if len(customers) > 0:
+            customers_serialized = CustomerSerializer(customers, many=True)
+            return Response(customers_serialized.data)
+        return Response([]) 
+    
+class OrganizationCustomerTasksView(generics.ListAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request, pk, *args, **kwargs):
+        try:
+            customer = Customer.objects.get(id=pk)
+            customer_tasks = CustomerTask.objects.filter(customer__id=customer.id)
+            tasks = []
+            for task in customer_tasks:
+                tasks.append(task.task)
+            
+            tasks_serailized = TaskSerializer(tasks, many=True)
+            return Response(tasks_serailized.data)
+        except: return Response([])

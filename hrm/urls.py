@@ -31,10 +31,16 @@ urlpatterns = [
     path('tasks-team/<int:pk>/', views.TeamTasksView.as_view(), name='employees-from-company'),
     
 
-    # frontend urls
+    # frontend endpoints
     path('register/', views.UserRegistrationView.as_view(), name='register-user'),
     path('user/', views.UserDetailsView.as_view(), name='get-user'),
     path('user/organizations/', views.UserOrganizationsView.as_view(), name='organizations-own'),
     path('employee/organizations/', views.EmployeeOrganizationsView.as_view(), name='organizations-added-in'),
+    path('employee/organization/<int:pk>/organization-tasks/', views.OrganizationTasksView.as_view(), name='organizations-added-in'),
+    path('employee/organization/<int:pk>/team-tasks/', views.EmployeeTeamTasksView.as_view(), name='organizations-added-in'),
     path('employee/organization/<int:pk>/tasks/', views.EmployeeTasksView.as_view(), name='organizations-added-in'),
+    path('employee/organization/<int:pk>/team/', views.EmployeeOrganizationTeamView.as_view(), name='organizations-added-in'),
+    path('employee/organization/<int:pk>/rank/', views.EmployeeOrganizationRoleView.as_view(), name='organizations-added-in'),
+    path('organization/<int:pk>/employees/', views.OrganizationEmployeesView.as_view(), name='organizations-added-in'),
+    path('organization/<int:pk>/employees/me/', views.OrganizationEmployeeView.as_view(), name='organizations-added-in'),
 ] + router.urls

@@ -68,6 +68,7 @@ class TaskDuty(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     details = models.TextField()
     date_due = models.DateField()
+    completion_status = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.employee.user.username + ' - ' + self.task.title + ' - ' + self.details

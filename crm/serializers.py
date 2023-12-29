@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Customer, Feedback, CustomerTask, Bill
+from .models import Activity, Customer, Feedback, CustomerTask, Bill
 from hrm.serializers import OrganizationSerializer, TaskSerializer
 
 class CustomerSerializer(serializers.ModelSerializer):
@@ -43,3 +43,8 @@ class BillSerializer(serializers.ModelSerializer):
         model = Bill
         fields = '__all__'
         depth = 1
+
+class ActivitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Activity
+        fields = '__all__'

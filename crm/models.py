@@ -1,5 +1,6 @@
 from django.db import models
 from hrm.models import Employee, Organization, Task
+from django.contrib.auth.models import User
 
 # default models for storing basic data
 class ActivityType(models.Model):
@@ -38,7 +39,7 @@ class CustomerTask(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return self.title + ' due ' + self.due_date.ctime()
+        return self.task.title + ' due ' + self.task.date_due.ctime()
     
 class Bill(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
@@ -53,7 +54,11 @@ class Bill(models.Model):
 
 class Activity(models.Model):
     type = models.ForeignKey(ActivityType, on_delete=models.CASCADE)
-    message = models.CharField(max_length=300)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    title = models.CharField(max_length=100, blank=True)
+    message = models.CharField(max_length=300, blank=True)
+    date_received = models.DateField(auto_now=True)
+    time_received = models.TimeField(auto_now=True)
 
     def __str__(self) -> str:
         return '[' + self.type.name + ']' + ' ' + self.message
